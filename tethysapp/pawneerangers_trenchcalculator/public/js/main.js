@@ -1,4 +1,4 @@
-init_map_splitline = function(){
+init_map = function(){
         require([
       "esri/Map",
       "esri/views/MapView",
@@ -8,21 +8,22 @@ init_map_splitline = function(){
       "esri/tasks/Geoprocessor",
       "esri/tasks/support/FeatureSet",
       "esri/geometry/Point",
+      "esri/geometry/Polyline",
       "dojo/domReady!"
-    ], function(Map, MapView, SketchViewModel, Graphic, GraphicsLayer, Geoprocessor, FeatureSet, Point) {
+    ], function(Map, MapView, SketchViewModel, Graphic, GraphicsLayer, Geoprocessor, FeatureSet, Point, Polyline) {
 
         var tempGraphicsLayer = new GraphicsLayer();
 
         var map = new Map({
-        basemap: "gray",
-        layers: [tempGraphicsLayer],
+          basemap: "gray",
+          layers: [tempGraphicsLayer],
         });
 
         var view = new MapView({
-        container: "mapsplitline",
-        map: map,
-        center: [-111.7,40.25],
-        zoom: 13
+          container: "map",
+          map: map,
+          center: [-111.7,40.25],
+          zoom: 13
         });
 
         var markerSymbol = {
@@ -34,12 +35,21 @@ init_map_splitline = function(){
           }
         };
 
-        var gpUrl = "http://geoserver2.byu.edu/arcgis/rest/services/PawneeRangers/generateprofile/GPServer/generateprofile";
+        var slopeUrl = "http://geoserver2.byu.edu/arcgis/rest/services/PawneeRangers/PawneeRangers_SlopeCalc/GPServer/SlopeCalc2";
+
+        var splitUrl = "http://geoserver2.byu.edu/arcgis/rest/services/PawneeRangers/generateprofile/GPServer/generateprofile";
 
         // create a new Geoprocessor
-        var gp = new Geoprocessor(gpUrl);
+        var slopeGp = new Geoprocessor(slopeUrl);
         // define output spatial reference
-        gp.outSpatialReference = { // autocasts as new SpatialReference()
+        slopeGp.outSpatialReference = { // autocasts as new SpatialReference()
+              wkid: 4326 //EPSG3857
+            };
+
+        // create a new Geoprocessor
+        var splitGp = new Geoprocessor(splitUrl);
+        // define output spatial reference
+        splitGp.outSpatialReference = { // autocasts as new SpatialReference()
               wkid: 4326 //EPSG3857
             };
 
@@ -56,6 +66,9 @@ init_map_splitline = function(){
           }
         });
 
+
+
+
         // ************************************************************
         // Get the completed graphic from the event and add it to view.
         // This event fires when user presses
@@ -64,6 +77,7 @@ init_map_splitline = function(){
         //  * Clicks to finish sketching a point geometry.
         // ***********************************************************
         sketchViewModel.on("draw-complete", function(evt) {
+          document.getElementsByClassName("slopereturn")[0].innerHTML = "Slope = (CALCULATING)";
           tempGraphicsLayer.add(evt.graphic);
           setActiveButton();
           var inputGraphicContainer = [];
@@ -74,23 +88,46 @@ init_map_splitline = function(){
 
           // input parameters
           var params = {
+            "Input_Features": featureSet,
             "line": featureSet,
             "Percentage": splitpercent,
           };
 
-          gp.submitJob(params).then(completeCallback, errBack, statusCallback);
+          slopeGp.submitJob(params).then(completeCallback, errBack, statusCallback);
+          splitGp.submitJob(params).then(completeCallback, errBack, statusCallback);
           waiting_output();
 
         });
 
+
+
         function completeCallback(result){
-
-            gp.getResultData(result.jobId, "ptswithelevations").then(drawResult, drawResultErrBack);
+            slopeGp.getResultData(result.jobId, "Line_With_Slope_Output").then(slopeResult, drawResultErrBack);
+            splitGp.getResultData(result.jobId, "ptswithelevations").then(splitResult, drawResultErrBack);
             document.getElementById("waiting_output").innerHTML = '';
-
         }
 
-        function drawResult(data){
+
+        function slopeResult(data){
+            var slope = data.value.features[0].attributes.slope;
+            document.getElementsByClassName("slopereturn")[0].innerHTML = "Slope = " + slope;
+//            var polyline = data.value.features[0]
+//
+//            var polylineSymbol = {
+//              type: "simple-line",  // autocasts as SimpleLineSymbol()
+//              color: [226, 119, 40],
+//              width: 4
+//            };
+//
+//            var polylineGraphic = new Graphic({
+//              geometry: polyline,
+//              symbol: polylineSymbol
+//           });
+//
+//            tempGraphicsLayer.add(polylineGraphic);
+        }
+
+        function splitResult(data){
             var pt_feature = data.value.features;
             var i;
             for (i = 0; i < pt_feature.length; i++) {
@@ -169,5 +206,5 @@ function waiting_output() {
 }
 
 $(function() {
-    init_map_splitline();
+    init_map();
 });
