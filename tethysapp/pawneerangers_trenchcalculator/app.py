@@ -6,13 +6,13 @@ class TrenchCalculator(TethysAppBase):
     Tethys app class for Trench Calculator.
     """
 
-    name = 'Trench Calculator'
-    index = 'pawneerangers_trenchcalculator:home'
-    icon = 'pawneerangers_trenchcalculator/images/icon.gif'
+    name = 'PR Trench Calculator'
+    index = 'pawneerangers_trenchcalculator:map_view'
+    icon = 'pawneerangers_trenchcalculator/images/pr.JPG'
     package = 'pawneerangers_trenchcalculator'
     root_url = 'pawneerangers-trenchcalculator'
     color = '#2c3e50'
-    description = 'Calculates import and export quantities for pipe installation trenches.'
+    description = 'Calculates import and export quantities for pipe installation trenches. Created by the Pawnee Rangers, "Be a Man."'
     tags = 'Construction'
     enable_feedback = False
     feedback_emails = []
@@ -53,11 +53,6 @@ class TrenchCalculator(TethysAppBase):
                 name='data_services',
                 url='pawneerangers-trenchcalculator/data_services',
                 controller='pawneerangers_trenchcalculator.controllers.data_services'
-            ),
-            UrlMap(
-                name='about',
-                url='pawneerangers-trenchcalculator/about',
-                controller='pawneerangers_trenchcalculator.controllers.about'
             ),
             UrlMap(
                 name='proposal',

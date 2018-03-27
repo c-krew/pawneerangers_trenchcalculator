@@ -23,13 +23,11 @@
   {% url 'pawneerangers_trenchcalculator:proposal' as proposal_url %}
   {% url 'pawneerangers_trenchcalculator:mockups' as mockups_url %}
   <li class="title">Navigation</li>
-  <li class="{% if request.path == home_url %}active{% endif %}"><a href="{{ home_url }}">Home</a></li>
   <li class="{% if request.path == map_url %}active{% endif %}"><a href="{{ map_url }}">Map View</a></li>
   <li class="{% if request.path == mapbuffer_url %}active{% endif %}"><a href="{{ mapbuffer_url }}">Map View (Buffer)</a></li>
   <li class="{% if request.path == mapslope_url %}active{% endif %}"><a href="{{ mapslope_url }}">Map View (Slope Calculator)</a></li>
   <li class="{% if request.path == mapsplit_url %}active{% endif %}"><a href="{{ mapsplit_url }}">Map View (Split Line)</a></li>
   <li class="{% if request.path == data_url %}active{% endif %}"><a href="{{ data_url }}">Data Services</a></li>
-  <li class="{% if request.path == about_url %}active{% endif %}"><a href="{{ about_url }}">About</a></li>
   <li class="{% if request.path == proposal_url %}active{% endif %}"><a href="{{ proposal_url }}">Proposal</a></li>
   <li class="{% if request.path == mockups_url %}active{% endif %}"><a href="{{ mockups_url }}">Mockups</a></li>
 {% endblock %}

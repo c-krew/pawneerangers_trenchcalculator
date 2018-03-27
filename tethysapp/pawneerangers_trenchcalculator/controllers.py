@@ -127,18 +127,6 @@ def data_services(request):
     return render(request, 'pawneerangers_trenchcalculator/data_services.html', context)
 
 @login_required()
-def about(request):
-    """
-    Controller for the app home page.
-    """
-
-
-    context = {
-    }
-
-    return render(request, 'pawneerangers_trenchcalculator/about.html', context)
-
-@login_required()
 def proposal(request):
     """
     Controller for the app home page.

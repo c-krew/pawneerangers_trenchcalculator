@@ -4,7 +4,7 @@
 {% load staticfiles %}
 
 {% block header_buttons %}
-  <div class="header-button glyphicon-button" data-toggle="tooltip" data-placement="bottom" title="Help">
+  <div class="header-button glyphicon-button" data-toggle="tooltip" data-placement="bottom" title="About">
     <a data-toggle="modal" data-target="#help-modal"><span class="glyphicon glyphicon-question-sign"></span></a>
   </div>
 {% endblock %}
@@ -63,6 +63,30 @@
         <!--End modal content-->
     </div>
     </form>
+
+  <div class="modal fade" id="help-modal" tabindex="-1" role="dialog" aria-labelledby="help-modal-label">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h5 class="modal-title" id="help-modal-label">About the Trench Tool</h5>
+        </div>
+        <div class="modal-body">
+            <p>This tool is brought to you by Corey Krewson, Ken Lippold, and Jordi Berrett of the Pawnee Rangers. </p>
+            <p>This app allows the user to calculate how much soil will be excavated when installing a pipe and how much soil will need to imported for bedding and backfill.</p>
+            <p>To begin, select the line tool in the top right corner of the map pane. Use left clicks to create points in the line and double click when you are finished.</p>
+            <p>The tool will automatically calculate slope, cut, and fill data after 10-20 seconds.</p>
+            <hr>
+            <p>Select "Update Dimensions" to specify and/or calculate the size of trench needed.</p>
+            <p>Select "View Results" to see the resulting app calculations.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Resume Session</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 {% endblock %}
 
 {% block app_actions %}
