@@ -35,21 +35,6 @@ class TrenchCalculator(TethysAppBase):
                 controller='pawneerangers_trenchcalculator.controllers.map_view'
             ),
             UrlMap(
-                name='map_view_buffer',
-                url='pawneerangers-trenchcalculator/map_view_buffer',
-                controller='pawneerangers_trenchcalculator.controllers.map_view_buffer'
-            ),
-            UrlMap(
-                name='map_view_slope',
-                url='pawneerangers-trenchcalculator/map_view_slope',
-                controller='pawneerangers_trenchcalculator.controllers.map_view_slope'
-            ),
-            UrlMap(
-                name='map_view_split',
-                url='pawneerangers-trenchcalculator/map_view_split',
-                controller='pawneerangers_trenchcalculator.controllers.map_view_split'
-            ),
-            UrlMap(
                 name='data_services',
                 url='pawneerangers-trenchcalculator/data_services',
                 controller='pawneerangers_trenchcalculator.controllers.data_services'

@@ -15,9 +15,6 @@
 {% block app_navigation_items %}
   {% url 'pawneerangers_trenchcalculator:home' as home_url %}
   {% url 'pawneerangers_trenchcalculator:map_view' as map_url %}
-  {% url 'pawneerangers_trenchcalculator:map_view_buffer' as mapbuffer_url %}
-  {% url 'pawneerangers_trenchcalculator:map_view_slope' as mapslope_url %}
-  {% url 'pawneerangers_trenchcalculator:map_view_split' as mapsplit_url %}
   {% url 'pawneerangers_trenchcalculator:data_services' as data_url %}
   {% url 'pawneerangers_trenchcalculator:about' as about_url %}
   {% url 'pawneerangers_trenchcalculator:proposal' as proposal_url %}
@@ -25,9 +22,6 @@
   <li class="title">Navigation</li>
   <li class="{% if request.path == home_url %}active{% endif %}"><a href="{{ home_url }}">Home</a></li>
   <li class="{% if request.path == map_url %}active{% endif %}"><a href="{{ map_url }}">Map View</a></li>
-  <li class="{% if request.path == mapbuffer_url %}active{% endif %}"><a href="{{ mapbuffer_url }}">Map View (Buffer)</a></li>
-  <li class="{% if request.path == mapslope_url %}active{% endif %}"><a href="{{ mapslope_url }}">Map View (Slope Calculator)</a></li>
-  <li class="{% if request.path == mapsplit_url %}active{% endif %}"><a href="{{ mapsplit_url }}">Map View (Split Line)</a></li>
   <li class="{% if request.path == data_url %}active{% endif %}"><a href="{{ data_url }}">Data Services</a></li>
   <li class="{% if request.path == about_url %}active{% endif %}"><a href="{{ about_url }}">About</a></li>
   <li class="{% if request.path == proposal_url %}active{% endif %}"><a href="{{ proposal_url }}">Proposal</a></li>
