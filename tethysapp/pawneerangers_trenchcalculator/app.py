@@ -7,7 +7,7 @@ class TrenchCalculator(TethysAppBase):
     """
 
     name = 'PR Trench Calculator'
-    index = 'pawneerangers_trenchcalculator:map_view'
+    index = 'pawneerangers_trenchcalculator:map_view_split'
     icon = 'pawneerangers_trenchcalculator/images/pr.JPG'
     package = 'pawneerangers_trenchcalculator'
     root_url = 'pawneerangers-trenchcalculator'
@@ -24,26 +24,6 @@ class TrenchCalculator(TethysAppBase):
         UrlMap = url_map_maker(self.root_url)
 
         url_maps = (
-            UrlMap(
-                name='home',
-                url='pawneerangers-trenchcalculator',
-                controller='pawneerangers_trenchcalculator.controllers.home'
-            ),
-            UrlMap(
-                name='map_view',
-                url='pawneerangers-trenchcalculator/map_view',
-                controller='pawneerangers_trenchcalculator.controllers.map_view'
-            ),
-            UrlMap(
-                name='map_view_buffer',
-                url='pawneerangers-trenchcalculator/map_view_buffer',
-                controller='pawneerangers_trenchcalculator.controllers.map_view_buffer'
-            ),
-            UrlMap(
-                name='map_view_slope',
-                url='pawneerangers-trenchcalculator/map_view_slope',
-                controller='pawneerangers_trenchcalculator.controllers.map_view_slope'
-            ),
             UrlMap(
                 name='map_view_split',
                 url='pawneerangers-trenchcalculator/map_view_split',

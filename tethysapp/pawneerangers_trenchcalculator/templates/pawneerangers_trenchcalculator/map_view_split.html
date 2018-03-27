@@ -35,6 +35,11 @@
     </div>
 {% endblock %}
 
+{% block app_navigation_items %}
+      {{ block.super }}
+      <div id="waiting_output"></div>
+{% endblock %}
+
 {# Use the after_app_content block for modals #}
 {% block after_app_content %}
     <form id="dimensionmod" class="modal fade" role="dialog" >
