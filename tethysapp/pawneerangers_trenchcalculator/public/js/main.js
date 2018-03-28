@@ -9,13 +9,43 @@ init_map = function(){
       "esri/tasks/support/FeatureSet",
       "esri/geometry/Point",
       "esri/geometry/Polyline",
+      "dojo/dom",
+      "dojo/on",
       "dojo/domReady!"
-    ], function(Map, MapView, SketchViewModel, Graphic, GraphicsLayer, Geoprocessor, FeatureSet, Point, Polyline) {
+    ], function(Map, MapView, SketchViewModel, Graphic, GraphicsLayer, Geoprocessor, FeatureSet, Point, Polyline, dom, on) {
 
         var tempGraphicsLayer = new GraphicsLayer();
 
+        var basemap = 'streets'
+
+        var graytog = dom.byId("graytog");
+        var sattog = dom.byId("sattog");
+        var strtog = dom.byId("strtog");
+
+        // Listen to the onchange event for the checkbox
+        on(graytog, "change", function(){
+          // When the checkbox is checked (true), set the layer's visibility to true
+          $("#sattog").prop("checked", false);
+          $("#strtog").prop("checked", false);
+          map.basemap ='gray'
+        });
+
+        on(sattog, "change", function(){
+          // When the checkbox is checked (true), set the layer's visibility to true
+          $("#graytog").prop("checked", false);
+          $("#strtog").prop("checked", false);
+          map.basemap ='satellite'
+        });
+
+        on(strtog, "change", function(){
+          // When the checkbox is checked (true), set the layer's visibility to true
+          $("#sattog").prop("checked", false);
+          $("#graytog").prop("checked", false);
+          map.basemap ='streets'
+        });
+
         var map = new Map({
-          basemap: "gray",
+          basemap: basemap,
           layers: [tempGraphicsLayer],
         });
 
