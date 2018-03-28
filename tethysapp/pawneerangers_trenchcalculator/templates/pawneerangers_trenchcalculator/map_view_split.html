@@ -41,6 +41,12 @@
 {% block app_navigation_items %}
       {{ block.super }}
       <div id="waiting_output"></div>
+      <div id="maptoggles" align="center">
+        <p>BASEMAP</p>
+        <input type="checkbox" id="graytog"> Gray
+        <input type="checkbox" id="sattog"> Satellite
+        <input type="checkbox" id="strtog" checked> Streets
+      </div>
 {% endblock %}
 
 {# Use the after_app_content block for modals #}
