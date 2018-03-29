@@ -237,4 +237,5 @@ function waiting_output() {
 
 $(function() {
     init_map();
+    $("#help-modal").modal('show')
 });
