@@ -6,13 +6,13 @@ class TrenchCalculator(TethysAppBase):
     Tethys app class for Trench Calculator.
     """
 
-    name = 'Trench Calculator'
-    index = 'pawneerangers_trenchcalculator:home'
-    icon = 'pawneerangers_trenchcalculator/images/icon.gif'
+    name = 'PR Trench Calculator'
+    index = 'pawneerangers_trenchcalculator:map_view_split'
+    icon = 'pawneerangers_trenchcalculator/images/pr.JPG'
     package = 'pawneerangers_trenchcalculator'
     root_url = 'pawneerangers-trenchcalculator'
     color = '#2c3e50'
-    description = 'Calculates import and export quantities for pipe installation trenches.'
+    description = 'Calculates import and export quantities for pipe installation trenches. Created by the Pawnee Rangers, "Be a Man."'
     tags = 'Construction'
     enable_feedback = False
     feedback_emails = []
@@ -25,6 +25,7 @@ class TrenchCalculator(TethysAppBase):
 
         url_maps = (
             UrlMap(
+<<<<<<< HEAD
                 name='home',
                 url='pawneerangers-trenchcalculator',
                 controller='pawneerangers_trenchcalculator.controllers.home'
@@ -33,16 +34,16 @@ class TrenchCalculator(TethysAppBase):
                 name='map_view',
                 url='pawneerangers-trenchcalculator/map_view',
                 controller='pawneerangers_trenchcalculator.controllers.map_view'
+=======
+                name='map_view_split',
+                url='pawneerangers-trenchcalculator/map_view_split',
+                controller='pawneerangers_trenchcalculator.controllers.map_view_split'
+>>>>>>> e5755b8ab822e491edca059514cd85dc9a9d95c2
             ),
             UrlMap(
                 name='data_services',
                 url='pawneerangers-trenchcalculator/data_services',
                 controller='pawneerangers_trenchcalculator.controllers.data_services'
-            ),
-            UrlMap(
-                name='about',
-                url='pawneerangers-trenchcalculator/about',
-                controller='pawneerangers_trenchcalculator.controllers.about'
             ),
             UrlMap(
                 name='proposal',

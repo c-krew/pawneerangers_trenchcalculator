@@ -1,4 +1,3 @@
-
 init_map = function(){
         require([
       "esri/Map",
@@ -10,13 +9,47 @@ init_map = function(){
       "esri/tasks/support/FeatureSet",
       "esri/geometry/Point",
       "esri/geometry/Polyline",
+      "dojo/dom",
+      "dojo/on",
       "dojo/domReady!"
-    ], function(Map, MapView, SketchViewModel, Graphic, GraphicsLayer, Geoprocessor, FeatureSet, Point, Polyline) {
+    ], function(Map, MapView, SketchViewModel, Graphic, GraphicsLayer, Geoprocessor, FeatureSet, Point, Polyline, dom, on) {
 
         var tempGraphicsLayer = new GraphicsLayer();
 
+        var basemap = 'streets'
+
+        var graytog = dom.byId("graytog");
+        var sattog = dom.byId("sattog");
+        var strtog = dom.byId("strtog");
+
+        // Listen to the onchange event for the checkbox
+        on(graytog, "change", function(){
+          // When the checkbox is checked (true), set the layer's visibility to true
+          $("#sattog").prop("checked", false);
+          $("#strtog").prop("checked", false);
+          map.basemap ='gray'
+        });
+
+        on(sattog, "change", function(){
+          // When the checkbox is checked (true), set the layer's visibility to true
+          $("#graytog").prop("checked", false);
+          $("#strtog").prop("checked", false);
+          map.basemap ='satellite'
+        });
+
+        on(strtog, "change", function(){
+          // When the checkbox is checked (true), set the layer's visibility to true
+          $("#sattog").prop("checked", false);
+          $("#graytog").prop("checked", false);
+          map.basemap ='streets'
+        });
+
         var map = new Map({
+<<<<<<< HEAD
           basemap: "gray",
+=======
+          basemap: basemap,
+>>>>>>> e5755b8ab822e491edca059514cd85dc9a9d95c2
           layers: [tempGraphicsLayer],
         });
 
@@ -39,6 +72,7 @@ init_map = function(){
         var slopeUrl = "http://geoserver2.byu.edu/arcgis/rest/services/PawneeRangers/PawneeRangers_SlopeCalc/GPServer/SlopeCalc2";
 
         var splitUrl = "http://geoserver2.byu.edu/arcgis/rest/services/PawneeRangers/generateprofile/GPServer/generateprofile";
+<<<<<<< HEAD
 
         // create a new Geoprocessor
         var slopeGp = new Geoprocessor(slopeUrl);
@@ -50,6 +84,19 @@ init_map = function(){
         // create a new Geoprocessor
         var splitGp = new Geoprocessor(splitUrl);
         // define output spatial reference
+=======
+
+        // create a new Geoprocessor
+        var slopeGp = new Geoprocessor(slopeUrl);
+        // define output spatial reference
+        slopeGp.outSpatialReference = { // autocasts as new SpatialReference()
+              wkid: 4326 //EPSG3857
+            };
+
+        // create a new Geoprocessor
+        var splitGp = new Geoprocessor(splitUrl);
+        // define output spatial reference
+>>>>>>> e5755b8ab822e491edca059514cd85dc9a9d95c2
         splitGp.outSpatialReference = { // autocasts as new SpatialReference()
               wkid: 4326 //EPSG3857
             };
@@ -96,6 +143,7 @@ init_map = function(){
 
           slopeGp.submitJob(params).then(completeCallback, errBack, statusCallback);
           splitGp.submitJob(params).then(completeCallback, errBack, statusCallback);
+<<<<<<< HEAD
 
         });
 
@@ -105,7 +153,18 @@ init_map = function(){
 
             slopeGp.getResultData(result.jobId, "Line_With_Slope_Output").then(slopeResult, drawResultErrBack);
             splitGp.getResultData(result.jobId, "ptswithelevations").then(splitResult, drawResultErrBack);
+=======
+          waiting_output();
 
+        });
+
+
+>>>>>>> e5755b8ab822e491edca059514cd85dc9a9d95c2
+
+        function completeCallback(result){
+            slopeGp.getResultData(result.jobId, "Line_With_Slope_Output").then(slopeResult, drawResultErrBack);
+            splitGp.getResultData(result.jobId, "ptswithelevations").then(splitResult, drawResultErrBack);
+            document.getElementById("waiting_output").innerHTML = '';
         }
 
 
@@ -147,6 +206,7 @@ init_map = function(){
 
         function drawResultErrBack(err) {
             console.log("draw result error: ", err);
+            document.getElementById("waiting_output").innerHTML = '';
         }
 
         function statusCallback(data) {
@@ -154,6 +214,7 @@ init_map = function(){
         }
         function errBack(err) {
             console.log("gp error: ", err);
+            document.getElementById("waiting_output").innerHTML = '';
         }
 
         var drawLineButton = document.getElementById("polylineButton");
@@ -196,6 +257,12 @@ function dimensionmodal() {
 
 function calcmes() {
     $("#slopereturn").html = "Line Slope = (CALCULATING)";
+}
+
+function waiting_output() {
+    var wait_text = "<strong>Loading...</strong><br>" +
+        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='/static/pawneerangers_trenchcalculator/images/seal.gif'>";
+    document.getElementById('waiting_output').innerHTML = wait_text;
 }
 
 $(function() {
