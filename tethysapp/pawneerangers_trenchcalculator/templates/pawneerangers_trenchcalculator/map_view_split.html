@@ -10,43 +10,36 @@
 {% endblock %}
 
 {% block app_content %}
-    <div class="Intro">
-        <h1 id="title" align="center">Trench Offhaul and Import Calculator</h1>
-        <p align="center">This app allows the user to calculate how much soil will be excavated when installing a pipe and how much soil will need
-        to imported for bedding and backfill.</p>
-    </div>
-    <br>
-    <br>
-    <div id="map">
+    <div id="map" style="position:absolute; width:77%; height:83%; margin:0; padding:-10%;">
         <div id="topbar">
           <button class="action-button esri-icon-polyline" id="polylineButton" type="button"
             title="Draw polyline"></button>
           <button class="action-button esri-icon-trash" id="resetBtn" type="button" title="Clear graphics"></button>
         </div>
     </div>
-    <br>
-    <br>
-	<div id="percent" align="center">
-        {% gizmo percent_input %}
-	</div>
-    <div id="slopereturnnn" align="center">
-        <p class="slopereturn"></p>
-	</div>
-    <div class="buttons" align="center">
-        {% gizmo dimensionsbut %}
-        {% gizmo results %}
-    </div>
 {% endblock %}
 
 {% block app_navigation_items %}
       {{ block.super }}
-      <div id="waiting_output"></div>
       <div id="maptoggles" align="center">
         <p>BASEMAP</p>
         <input type="checkbox" id="graytog"> Gray
         <input type="checkbox" id="sattog"> Satellite
         <input type="checkbox" id="strtog" checked> Streets
       </div>
+    <br>
+    <br>
+    <div id="percent" align="center">
+        {% gizmo percent_input %}
+    </div>
+    <div id="slopereturnnn" align="center">
+        <p class="slopereturn"></p>
+    </div>
+    <div class="buttons" align="center">
+        {% gizmo dimensionsbut %}
+        {% gizmo results %}
+    </div>
+    <div id="waiting_output"></div>
 {% endblock %}
 
 {# Use the after_app_content block for modals #}
