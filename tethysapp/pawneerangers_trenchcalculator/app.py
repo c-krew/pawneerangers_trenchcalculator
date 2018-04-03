@@ -43,6 +43,11 @@ class TrenchCalculator(TethysAppBase):
                 name='mockups',
                 url='pawneerangers-trenchcalculator/mockups',
                 controller='pawneerangers_trenchcalculator.controllers.mockups'
+            ),
+            UrlMap(
+                name='plot_elevations',
+                url='pawneerangers-trenchcalculator/plot-elevations',
+                controller='pawneerangers_trenchcalculator.ajax_controllers.plot_elevations'
             )
         )
 
