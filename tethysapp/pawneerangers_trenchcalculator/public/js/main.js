@@ -134,12 +134,12 @@ init_map = function(){
         function completeCallback(result){
             slopeGp.getResultData(result.jobId, "Line_With_Slope_Output").then(slopeResult, drawResultErrBack);
             splitGp.getResultData(result.jobId, "ptswithelevations").then(splitResult, drawResultErrBack);
-            document.getElementById("waiting_output").innerHTML = '';
         }
 
 
         function slopeResult(data){
             var slope = data.value.features[0].attributes.slope;
+            console.log(data)
             document.getElementsByClassName("slopereturn")[0].innerHTML = "Slope = " + slope;
 //            var polyline = data.value.features[0]
 //
@@ -155,12 +155,20 @@ init_map = function(){
 //           });
 //
 //            tempGraphicsLayer.add(polylineGraphic);
+            document.getElementById("waiting_output").innerHTML = '';
+
         }
+
+
 
         function splitResult(data){
             var pt_feature = data.value.features;
+            var ptelev = [];
             var i;
+
             for (i = 0; i < pt_feature.length; i++) {
+
+                ptelev.push(pt_feature[i]['attributes']['RASTERVALU'])
 
                 var point = new Point({
                     longitude: longitude= pt_feature[i]['geometry']['longitude'],
@@ -172,11 +180,67 @@ init_map = function(){
                 });
                 tempGraphicsLayer.add(ptGraphic);
             }
+
+//            $.ajax({
+//                url: '/apps/pawneerangers-trenchcalculator/plot-elevations/',
+//                type: 'GET',
+//                data: {'ptelev' : ptelev},
+//                contentType: 'application/json',
+//                error: function (status) {
+//
+//                }, success: function (response) {
+//                    document.getElementsByClassName("modal-body")[0].innerHTML = "Embalse = " + dam;
+//                }
+//            })
+
+            Highcharts.chart('resultgraph', {
+
+                title: {
+                    text: 'Profile of Pipe Installation'
+                },
+
+                yAxis: {
+                    title: {
+                        text: 'Elevation (ft)'
+                    }
+                },
+
+                plotOptions: {
+                    series: {
+                        label: {
+                            connectorAllowed: false
+                        },
+                        pointStart: 0
+                    }
+                },
+
+                series: [{
+                    name: 'Elevation',
+                    data: ptelev
+                }],
+
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
+
+            });
+
+
         }
 
         function drawResultErrBack(err) {
             console.log("draw result error: ", err);
-            document.getElementById("waiting_output").innerHTML = '';
         }
 
         function statusCallback(data) {
@@ -184,7 +248,6 @@ init_map = function(){
         }
         function errBack(err) {
             console.log("gp error: ", err);
-            document.getElementById("waiting_output").innerHTML = '';
         }
 
         var drawLineButton = document.getElementById("polylineButton");
@@ -237,4 +300,5 @@ function waiting_output() {
 
 $(function() {
     init_map();
+    $("#help-modal").modal('show')
 });
