@@ -139,7 +139,7 @@ def map_view_split(request):
                                 condensed=True
                             )
 
-    percent_input = TextInput(display_text='Split Percentage (i.e. 5% = 20 points)',
+    percent_input = TextInput(display_text='Number of Points',
                            name='percentinput',
                            placeholder='',
                             )

@@ -4,6 +4,7 @@
 {% load staticfiles %}
 
 {% block header_buttons %}
+    {{ block.super }}
   <div class="header-button glyphicon-button" data-toggle="tooltip" data-placement="bottom" title="About">
     <a data-toggle="modal" data-target="#help-modal"><span class="glyphicon glyphicon-question-sign"></span></a>
   </div>
@@ -106,8 +107,8 @@
 
 {% block scripts %}
   {{ block.super }}
-  <script>
+{% endblock %}
 
-
-  </script>
+{% block content_dependent_styles %}
+  {{ block.super }}
 {% endblock %}

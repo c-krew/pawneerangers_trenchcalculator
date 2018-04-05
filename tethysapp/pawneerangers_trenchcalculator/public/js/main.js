@@ -115,12 +115,13 @@ init_map = function(){
           var featureSet = new FeatureSet();
           featureSet.features = inputGraphicContainer;
           var splitpercent = $("#percentinput").val();
+          var points = 100 / Number(splitpercent)
 
           // input parameters
           var params = {
             "Input_Features": featureSet,
             "line": featureSet,
-            "Percentage": splitpercent,
+            "Percentage": points,
           };
 
           slopeGp.submitJob(params).then(completeCallback, errBack, statusCallback);
