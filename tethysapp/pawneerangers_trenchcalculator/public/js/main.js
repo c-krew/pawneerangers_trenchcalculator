@@ -295,7 +295,7 @@ function calcmes() {
 
 function waiting_output() {
     var wait_text = "<strong>Loading...</strong><br>" +
-        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='/static/pawneerangers_trenchcalculator/images/seal.gif'>";
+        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='/static/pawneerangers_trenchcalculator/images/swansonhead.gif'>";
     document.getElementById('waiting_output').innerHTML = wait_text;
 }
 
