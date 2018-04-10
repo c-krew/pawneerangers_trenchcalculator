@@ -141,7 +141,7 @@ def map_view_split(request):
 
     percent_input = TextInput(display_text='Number of Points',
                            name='percentinput',
-                           placeholder='',
+                           initial = '20',
                             )
 
     context = {

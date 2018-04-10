@@ -9,10 +9,11 @@ init_map = function(){
       "esri/tasks/support/FeatureSet",
       "esri/geometry/Point",
       "esri/geometry/Polyline",
+      "esri/widgets/Legend",
       "dojo/dom",
       "dojo/on",
       "dojo/domReady!"
-    ], function(Map, MapView, SketchViewModel, Graphic, GraphicsLayer, Geoprocessor, FeatureSet, Point, Polyline, dom, on) {
+    ], function(Map, MapView, SketchViewModel, Graphic, GraphicsLayer, Geoprocessor, FeatureSet, Point, Polyline, Legend, dom, on) {
 
         var tempGraphicsLayer = new GraphicsLayer();
 
@@ -97,8 +98,6 @@ init_map = function(){
         });
 
 
-
-
         // ************************************************************
         // Get the completed graphic from the event and add it to view.
         // This event fires when user presses
@@ -140,7 +139,6 @@ init_map = function(){
 
         function slopeResult(data){
             var slope = data.value.features[0].attributes.slope;
-            console.log(data)
             document.getElementsByClassName("slopereturn")[0].innerHTML = "Slope = " + slope;
 //            var polyline = data.value.features[0]
 //
@@ -193,6 +191,7 @@ init_map = function(){
 //                    document.getElementsByClassName("modal-body")[0].innerHTML = "Embalse = " + dam;
 //                }
 //            })
+
 
             Highcharts.chart('resultgraph', {
 
@@ -264,6 +263,18 @@ init_map = function(){
           sketchViewModel.reset();
           setActiveButton();
         };
+
+        var featureLayer = map.layers.getItemAt(0);
+
+        var legend = new Legend({
+          view: view,
+          layerInfos: [{
+            layer: featureLayer,
+            title: "Trench Line"
+          }]
+        });
+
+        view.ui.add(legend, "bottom-right");
 
         function setActiveButton(selectedButton) {
           // focus the view to activate keyboard shortcuts for sketching
