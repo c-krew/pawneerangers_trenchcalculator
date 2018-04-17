@@ -1,4 +1,4 @@
-# pawneerangers_trenchcalculator
+# Pawnee Rangers Trench Calculator
 
 This app was created to help construction management personnel accurately and quickly estimate import and export quantities for 
 pipe installation. Users are able to set trech dimensions including trench width, side slope, bedding depth, pipe diameter, and 
@@ -9,7 +9,6 @@ This app is created to run in the Teyths Platform programming environment. See: 
 ##Prerequisites:
 
 Tethys Platform (CKAN, PostgresQL, GeoServer)
-math (Python package for performing mathematic operations)
 
 ###Install Tathys Platform See: http://docs.tethysplatform.org/en/latest/installation.html
 
