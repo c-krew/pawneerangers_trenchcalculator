@@ -31,6 +31,12 @@
                 </form>
             </div>
         </div>
+        <div id="newlegend" class="esri-widget">
+            <div style="margin:15px;">
+                <h6>Legendary Legend</h6>
+                <img id="lngd" src="{% static 'pawneerangers_trenchcalculator/images/legend.png' %}" style="width:100px;">
+            </div>
+        </div>
     </div>
 {% endblock %}
 
@@ -139,10 +145,10 @@
             <div class="modal-body">
                 <p>This tool is brought to you by Corey Krewson, Ken Lippold, and Jordi Berrett of the Pawnee Rangers. </p>
                 <p>This app allows the user to calculate how much soil will be excavated when installing a pipe and how much soil will need to imported for bedding and backfill.</p>
-                <p>To begin, select the line tool on the left panel:  <img id="trenchprofile" src="{% static 'pawneerangers_trenchcalculator/images/linetool.png' %}"> Use left clicks to create points in the line and double click when you are finished.</p>
-                <p>The tool will automatically calculate slope, cut, and fill data after 10-20 seconds.</p>
+                <p>To begin, select the line tool on the map:  <img id="trenchprofile" src="{% static 'pawneerangers_trenchcalculator/images/drawingbutton.png' %}" style="width:20%;"> Use left clicks to create points in the line and double click when you are finished.</p>
+                <p>Use the left panel to define the other properties of your trench as shown in the diagram.</p>
                 <hr>
-                <p>Select "Update Dimensions" to specify and/or calculate the size of trench needed.</p>
+                <p>Select "Build Trench" to begin processing your request.</p>
                 <p>Select "View Results" to see the resulting app calculations.</p>
             </div>
             <div class="modal-footer">

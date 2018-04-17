@@ -61,6 +61,8 @@ init_map = function() {
 
         view.ui.add("search", "top-right");
 
+        view.ui.add("newlegend", "bottom-right");
+
         view.when(function(evt) {
           var draw = new Draw({
             view: view
@@ -198,24 +200,61 @@ init_map = function() {
 
 
         $('#build-trench-button').on('click', function() {
-          $('#swanson').show()
-          $('#result-table').hide()
-          $('#result-plot').hide()
-          $('#result-modal').modal('show');
-          console.log(view.graphics.items[0])
+          if ($('#pipe-diameter').val() == '') {
+            alert("Please enter a pipe diameter.")
+          } else if ($('#base-width').val() == '') {
+            alert("Please enter a base width.")
+          } else if ($('#min-depth').val() == '') {
+            alert("Please enter a minumum depth.")
+          } else if ($('#back-depth').val() == '') {
+            alert("Please enter a backfill depth.")
+          } else if ($('#base-slope').val() == '') {
+            alert("Please enter a base slope.")
+          } else if ($('#side-slope').val() == '') {
+            alert("Please enter a side slope.")
+          } else if (isNaN($('#pipe-diameter').val())) {
+            alert("Pipe diameter must be a number.")
+          } else if (isNaN($('#base-width').val())) {
+            alert("Base width must be a number.")
+          } else if (isNaN($('#min-depth').val())) {
+            alert("Minimum depth must be a number.")
+          } else if (isNaN($('#back-depth').val())) {
+            alert("Backfill depth must be a number.")
+          } else if (isNaN($('#base-slope').val())) {
+            alert("Base slope must be a number.")
+          } else if (isNaN($('#side-slope').val())) {
+            alert("Side slope must be a number.")
+          } else if ($('#pipe-diameter').val() > $('#base-width').val()) {
+            alert("Pipe diameter cannot be larger than base width.")
+          } else if ($('#back-depth').val() > $('#min-depth').val()) {
+            alert("Backfill depth cannot be larger than minimum depth.")
+          } else if (!($('#base-slope').val() < 90 && $('#base-slope').val() >= 0)) {
+            alert("Base slope must be between 0 and 90 degrees.")
+          } else if (!($('#side-slope').val() < 90 && $('#side-slope').val() >= 0)) {
+            alert("Side slope must be between 0 and 90 degrees.")
+          } else {
+            if (view.graphics.items[0] == null) {
+              alert("Please draw a trench line.")
+            } else {
+              $('#swanson').show()
+              $('#result-table').hide()
+              $('#result-plot').hide()
+              $('#result-modal').modal('show');
+              var inputGraphicContainer = [];
+              inputGraphicContainer.push(view.graphics.items[0]);
+              var featureSet = new FeatureSet();
+              featureSet.features = inputGraphicContainer;
 
-          var inputGraphicContainer = [];
-          inputGraphicContainer.push(view.graphics.items[0]);
-          var featureSet = new FeatureSet();
-          featureSet.features = inputGraphicContainer;
+              var params = {
+                "Input_Features": featureSet,
+                "line": featureSet,
+                "Percentage": 20,
+              };
+              console.log("TEST")
+              slopeGp.submitJob(params).then(slopeCallback, errBack, statusCallback);
+            }
 
-          var params = {
-            "Input_Features": featureSet,
-            "line": featureSet,
-            "Percentage": 20,
-          };
-          console.log("TEST")
-          slopeGp.submitJob(params).then(slopeCallback, errBack, statusCallback);
+          }
 
         })
 
@@ -288,7 +327,8 @@ init_map = function() {
               'side_slope': $('#side-slope').val(),
               'section_length': section_length
             }
-            console.log("TESTING123")
+
+
             $.ajax({
                 headers: {'X-CSRFToken': getCookie('csrftoken')},
                 type: 'POST',
@@ -359,10 +399,19 @@ init_map = function() {
                     $('#swanson').hide()
                     $('#result-table').show()
                     $('#result-plot').show()
+                  } else {
+                    $('#swanson').hide()
+                    alert("We encountered an error while processing your request.")
+                    document.getElementById("results-button").disabled = true
+                    $('#result-modal').modal('hide');
                   };
                 },
                 error: function (status) {
-                    //alert("FAIL")
+                    $('#swanson').hide()
+                    alert("We encountered an error while processing your request.")
+                    document.getElementById("results-button").disabled = true
+                    $('#result-modal').modal('hide');
+
                 }
             });
 
