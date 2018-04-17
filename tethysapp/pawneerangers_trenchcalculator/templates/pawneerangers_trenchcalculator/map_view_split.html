@@ -11,72 +11,123 @@
 {% endblock %}
 
 {% block app_content %}
-    <div id="map" style="position:absolute; width:77%; height:83%; margin:0; padding:-10%;">
+    <div id="map" style="margin-left: -15px; margin-right: -15px; margin-top: -20px; margin-bottom: -500px; width:-webkit-fill-available; height:626px;">
+        <div id="line-button" class="esri-widget-button esri-widget esri-interactive" title="Draw polyline">
+            <span class="esri-icon-polyline"></span>
+        </div>
+        <div id="search" class="esri-widget">
+            <div style="margin:15px;">
+                <h6>Basemap</h6>
+                <form name="map-toggle">
+                    <div id="gray-toggle" class="radio">
+                      <label><input type="radio" name="mapradio" value="gray">Gray</label>
+                    </div>
+                    <div id="satellite-toggle" class="radio">
+                      <label><input type="radio" name="mapradio" value="satellite">Satellite</label>
+                    </div>
+                    <div id="streets-toggle" class="radio">
+                      <label><input type="radio" name="mapradio" value="streets" checked>Streets</label>
+                    </div> 
+                </form>
+            </div>
+        </div>
     </div>
 {% endblock %}
 
 {% block app_navigation_items %}
       {{ block.super }}
-    <div id="maptoggles" align="center">
-        <p class="butheader">BASEMAP</p>
-        <input type="checkbox" id="graytog"> Gray
-        <input type="checkbox" id="sattog"> Satellite
-        <input type="checkbox" id="strtog" checked> Streets
+
+    <p class="butheader" style="margin-left:10%">TRENCH DIMENSIONS</p>
+    <div style="margin-left:10%;">
+        <table style="width:100%; margin-left: 10px;">
+          <tr>
+            <td>Pipe Diameter (feet)</td>
+            <td>
+                <input id="pipe-diameter" type="text" style="width:70px;">
+            </td> 
+          </tr>
+          <tr>
+            <td>Base Width (feet)</td>
+            <td>
+                <input id="base-width" type="text" style="width:70px;">
+            </td> 
+          </tr>
+          <tr>
+            <td>Minimum Depth (feet)</td>
+            <td>
+                <input id="min-depth" type="text" style="width:70px;">
+            </td> 
+          </tr>
+          <tr>
+            <td>Backfill Depth (feet)</td>
+            <td>
+                <input id="back-depth" type="text" style="width:70px;">
+            </td> 
+          </tr>
+          <tr>
+            <td>Base Slope (degrees)</td>
+            <td>
+                <input id="base-slope" type="text" style="width:70px;">
+            </td> 
+          </tr>
+          <tr>
+            <td>Side Slope (degrees)</td>
+            <td>
+                <input id="side-slope" type="text" style="width:70px;">
+            </td> 
+          </tr>
+        </table> 
+    </div>
+    <img id="trenchprofile" src="{% static 'pawneerangers_trenchcalculator/images/trench_profile.png' %}">
+    <br>
+    <div style="margin-left: 10%">
+        <button id="build-trench-button" type="button" class="btn btn-default btn-md">Build Trench</button>
+        <button id="results-button" type="button" class="btn btn-default btn-md" onclick="$('#result-modal').modal('show'); " disabled>View Results</button>
     </div>
     <br>
-    <div id="topbar" align="center">
-        <p class="butheader">DRAW OR DELETE LINES</p>
-        <button class="action-button esri-icon-polyline" id="polylineButton" type="button" title="Draw polyline"></button>
-        <button class="action-button esri-icon-trash" id="resetBtn" type="button" title="Clear graphics"></button>
-    </div>
     <br>
-    <div id="percent" align="center">
-        {% gizmo percent_input %}
-    </div>
-    <div id="slopereturnnn" align="center">
-        <p class="slopereturn"></p>
-    </div>
-    <div class="buttons" align="center">
-        {% gizmo dimensionsbut %}
-        {% gizmo results %}
-    </div>
-    <div id="waiting_output"></div>
+    <div id="loading-animation"></div>
 {% endblock %}
 
 {# Use the after_app_content block for modals #}
 {% block after_app_content %}
-    <form id="dimensionmod" class="modal fade" role="dialog" >
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <h5 align="center">Input Dimensions</h5>
-            <div id="dimtable">
-                {% gizmo dimension_edit %}
-            </div>
-            <img id="trenchprofile" src="{% static 'pawneerangers_trenchcalculator/images/trenchprofile.png' %}">
-            <div id="modalbut">
-                {% gizmo calculate %}
-            </div>
-        </div>
-        <!--End modal content-->
-    </div>
-    </form>
 
-
-    <form id="resultmod" class="modal fade" role="dialog" >
-    <div id="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <h5 align="center">Results</h5>
-            <div id="resultgraph">
+    <div class="modal fade" id="result-modal" tabindex="-1" role="dialog" aria-labelledby="result-modal-label">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h5 class="modal-title" id="result-modal-label">Results</h5>
             </div>
-            <div id="resulttable">
-                {% gizmo resulttable %}
+            <div class="modal-body">
+                <center>
+                    <div id="swanson" hidden>
+                        <img id="swanson-head" src="{% static 'pawneerangers_trenchcalculator/images/swansonhead.gif' %}">
+                    </div>
+                    <div id="result-plot"></div>
+                    <table id="result-table" class="table" style="width:85%;" hidden>
+                      <tbody>
+                        <tr>
+                          <th>Offhaul Volume (yd<sup>3</sup>)</th>
+                          <th>Backfill Volume (yd<sup>3</sup>)</th>
+                          <th>Bedding Volume (yd<sup>3</sup>)</th>
+                        </tr>
+                        <tr>
+                          <td id="offhaul-result"></td>
+                          <td id="backfill-result"></td>
+                          <td id="bedding-result"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                <center>
             </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
         </div>
-        <!--End modal content-->
     </div>
-    </form>
+
 
     <div class="modal fade" id="help-modal" tabindex="-1" role="dialog" aria-labelledby="help-modal-label">
         <div class="modal-dialog" role="document">
